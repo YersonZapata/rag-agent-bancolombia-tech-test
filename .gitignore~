@@ -1,0 +1,7 @@
+# Ignorar todas las carpetas __pycache__ en cualquier lugar
+__pycache__/
+
+# Ignorar todas las carpetas chroma_data en cualquier lugar
+chroma_data/
+
+.venv/
