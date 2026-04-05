@@ -55,7 +55,7 @@ async def trigger_pipeline():
     
     return {
         "status": "success", 
-        "message": "Pipeline iniciado mediante un hilo nativo."
+        "message": "Pipeline iniciado en batch, ve a los logs de la imagen para ver lo que esta sucediendo"
     }
 
 @app.post("/api/v1/search")

@@ -173,6 +173,12 @@ async def extraer_enlaces_hijos(page, url_origen_real, url_base_categoria):
 
 async def mapear_y_extraer_rama(page, rp, categoria_raiz, visitados_global, paginas_guardadas, max_productos):
     logger.info(f"=== EXPLORANDO RAMA: {categoria_raiz} ===")
+
+    # Parseamos la URL, tomamos el path, lo dividimos por '/' y filtramos vacíos
+    path_segmentos = [seg for seg in urlparse(categoria_raiz).path.split('/') if seg]
+    # Tomamos el último segmento, reemplazamos '-' por espacios y ponemos mayúscula inicial
+    nombre_categoria = path_segmentos[-1].replace('-', ' ').capitalize() if path_segmentos else "General"
+    
     cola_visitas = [categoria_raiz]
 
     while cola_visitas:
@@ -234,7 +240,8 @@ async def mapear_y_extraer_rama(page, rp, categoria_raiz, visitados_global, pagi
             # Guardamos el producto en memoria
             paginas_guardadas.append({
                 "id": str(len(paginas_guardadas) + 1),
-                "titulo": titulo,
+                "producto": titulo,               
+                "categoria": nombre_categoria,    
                 "url": url_final_servidor,
                 "contenido": markdown_listo
             })
