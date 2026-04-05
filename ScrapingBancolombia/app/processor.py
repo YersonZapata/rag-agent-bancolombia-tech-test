@@ -1,4 +1,5 @@
 import logging
+from datetime import datetime
 from langchain_experimental.text_splitter import SemanticChunker
 from langchain_huggingface import HuggingFaceEmbeddings
 
@@ -12,9 +13,11 @@ def procesar_y_guardar_productos(productos_extraidos, collection):
     if not productos_extraidos:
         logger.warning("No hay productos para procesar.")
         return
-
-    logger.info("Cargando modelo de embeddings BAAI/bge-m3...")
-    lc_embeddings = HuggingFaceEmbeddings(model_name="BAAI/bge-m3")
+    
+    nombre_modelo_embeddings = "BAAI/bge-m3"
+    
+    logger.info("Cargando modelo de embeddings {nombre_modelo_embeddings}...")
+    lc_embeddings = HuggingFaceEmbeddings(model_name=nombre_modelo_embeddings)
     
     logger.info("Configurando SemanticChunker...")
     semantic_splitter = SemanticChunker(
@@ -25,7 +28,10 @@ def procesar_y_guardar_productos(productos_extraidos, collection):
     documents = []
     metadatas = []
     ids = []
+    # Capturamos la fecha y hora de la ejecución actual en formato ISO 8601
+    fecha_actualizacion = datetime.now().isoformat()
     
+
     logger.info("Generando chunks semánticos...")
     for prod in productos_extraidos:
         chunks = semantic_splitter.split_text(prod["contenido"])
@@ -36,7 +42,9 @@ def procesar_y_guardar_productos(productos_extraidos, collection):
                 "producto": prod["producto"],     
                 "categoria": prod["categoria"],   
                 "url": prod["url"],
-                "chunk_index": i
+                "chunk_index": i,
+                "fecha_ultima_actualizacion": fecha_actualizacion,  # <-- Nuevo campo
+                "modelo_embeddings": nombre_modelo_embeddings
             })
             ids.append(f"prod_{prod['id']}_chunk_{i}")
             
