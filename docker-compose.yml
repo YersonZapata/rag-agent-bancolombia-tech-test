@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  # 1. Servicio de Base de Datos Vectorial (ChromaDB)
+  chromadb-server:
+    image: docker.io/chromadb/chroma:latest
+    container_name: chromadb-server
+    ports:
+      - "8000:8000"
+    networks:
+      - bancolombia-net
+
+  # 2. Servicio de API y Scraper
+  scraper-api:
+    build: 
+      context: ./ScrapingBancolombia # <-- Apunta a la carpeta del microservicio
+    container_name: scraper-api
+    ports:
+      - "8001:8001"
+    environment:
+      - MAX_PRODUCTOS_A_GUARDAR=-1
+      - CHROMA_HOST=chromadb-server
+      - CHROMA_PORT=8000
+    depends_on:
+      - chromadb-server
+    networks:
+      - bancolombia-net
+
+# 3. Definición de la Red Virtual compartida
+networks:
+  bancolombia-net:
+    driver: bridge
