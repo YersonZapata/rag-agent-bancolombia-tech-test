@@ -33,7 +33,8 @@ def procesar_y_guardar_productos(productos_extraidos, collection):
             documents.append(chunk)
             metadatas.append({
                 "id_producto": prod["id"],
-                "titulo": prod["titulo"],
+                "producto": prod["producto"],     
+                "categoria": prod["categoria"],   
                 "url": prod["url"],
                 "chunk_index": i
             })
