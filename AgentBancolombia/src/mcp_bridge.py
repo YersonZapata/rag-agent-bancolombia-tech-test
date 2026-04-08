@@ -1,0 +1,36 @@
+import os
+import asyncio
+from mcp.client.stdio import stdio_client, StdioServerParameters
+from mcp.client.session import ClientSession
+
+class MCPBridge:
+    """
+    Clase encargada de gestionar la conexión por stdio con el Servidor MCP.
+    """
+    def __init__(self):
+        # 1. Obtenemos la ruta absoluta a la carpeta del servidor
+        server_dir = os.path.abspath("McpServerBancolombia")
+        
+        # 2. Inyectamos esa ruta en el PYTHONPATH del subproceso
+        env = os.environ.copy()
+        env["PYTHONPATH"] = server_dir + os.pathsep + env.get("PYTHONPATH", "")
+
+        # 3. Configuramos los parámetros forzando la ejecución como módulo (-m app.main)
+        self.server_params = StdioServerParameters(
+            command="python",
+            args=["-u", "-m", "app.main"], 
+            env=env
+        )
+
+    async def call_tool(self, tool_name: str, arguments: dict) -> str:
+        """
+        Abre una conexión temporal por stdio, invoca la herramienta y retorna el resultado.
+        """
+        try:
+            async with stdio_client(self.server_params) as (read, write):
+                async with ClientSession(read, write) as session:
+                    await session.initialize()
+                    result = await session.call_tool(tool_name, arguments)
+                    return result.content[0].text if result.content else "{}"
+        except Exception as e:
+            return f"Error en el puente MCP: {str(e)}"
