@@ -31,6 +31,12 @@ class MCPBridge:
                 async with ClientSession(read, write) as session:
                     await session.initialize()
                     result = await session.call_tool(tool_name, arguments)
-                    return result.content[0].text if result.content else "{}"
+                    text_response = result.content[0].text if result.content else "{}"
+                    
+                    #  INTERCEPCIÓN ERRORORES
+                    if getattr(result, "isError", False) or getattr(result, "is_error", False) or text_response.startswith("Error"):
+                        raise Exception(f"[{tool_name}] {text_response}")
+                        
+                    return text_response
         except Exception as e:
-            return f"Error en el puente MCP: {str(e)}"
+            raise Exception(f"El servidor MCP falló o no pudo iniciar : {str(e)}")

@@ -13,7 +13,7 @@ services:
   # 2. Servicio de API y Scraper
   scraper-api:
     build: 
-      context: ./ScrapingBancolombia # <-- Apunta a la carpeta del microservicio
+      context: ./ScrapingBancolombia
     container_name: scraper-api
     ports:
       - "8001:8001"
@@ -26,7 +26,25 @@ services:
     networks:
       - bancolombia-net
 
-# 3. Definición de la Red Virtual compartida
+# 3. Servicio del Agente Conversacional + MCP 
+  rag-agent:
+    build:
+      context: . # Apunta a la raíz del proyecto para ver ambas carpetas
+      dockerfile: Dockerfile
+    container_name: rag-agent
+    ports:
+      - "8501:8501"
+    environment:
+      # Toma la llave de las variables de entorno
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY} 
+      - CHROMA_HOST=chromadb-server
+      - CHROMA_PORT=8000
+    depends_on:
+      - chromadb-server
+    networks:
+      - bancolombia-net
+
+# 4. Definición de la Red Virtual compartida
 networks:
   bancolombia-net:
     driver: bridge

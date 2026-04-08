@@ -2,6 +2,9 @@ import streamlit as st
 from langchain_core.messages import HumanMessage, AIMessage
 from src.agent import build_bancolombia_agent, get_query_rewriter
 
+from langchain_core.globals import set_debug
+set_debug(True)
+
 st.set_page_config(page_title="Asistente Bancolombia RAG", page_icon="🏦", layout="centered")
 st.title("🏦 Asistente Virtual Bancolombia")
 
@@ -69,4 +72,16 @@ if user_input:
                 st.session_state.chat_history.append(AIMessage(content=output_text))
                 
             except Exception as e:
-                st.error(f"Ocurrió un error: {str(e)}")
+                error_msg = str(e)
+                
+                # 1. Manejo del error 429 (Límite de cuota / Rate Limit)
+                if "429" in error_msg or "RESOURCE_EXHAUSTED" in error_msg:
+                    st.warning("⏳ **Límite de consultas alcanzado.** La API gratuita se encuentra saturada en este momento. Por favor, espera aproximadamente **1 minuto** e intenta de nuevo.")
+                
+                # 2. Manejo de error de conexión con el Servidor MCP (ChromaDB apagado, etc.)
+                elif "Connection refused" in error_msg or "stdio" in error_msg:
+                    st.error("🔌 **Error de conexión con la Base de Conocimiento.** Asegúrate de que el servidor vectorial (ChromaDB) esté en ejecución.")
+                
+                # 3. Cualquier otro error inesperado
+                else:
+                    st.error(f"Ocurrió un error inesperado, intenta nuevamente: {error_msg}")

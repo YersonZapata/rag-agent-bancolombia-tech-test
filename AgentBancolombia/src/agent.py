@@ -38,7 +38,7 @@ def build_bancolombia_agent():
     """
     # 1. Definir el LLM 
     llm = ChatGoogleGenerativeAI(
-        model="gemini-2.5-flash", 
+        model="gemini-flash-latest", 
         temperature=0.2,
         max_retries=2 
     )
