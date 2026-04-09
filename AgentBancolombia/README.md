@@ -60,3 +60,5 @@ python -u -m streamlit run AgentBancolombia/app.py --server.fileWatcherType none
 ```
 
 * **Para producción:** El agente se encuentra empacado junto a su servidor MCP en el contenedor unificado configurado en el `Dockerfile` principal, orquestado a través de `docker-compose`.
+
+entrar a http://localhost:8501/ para interactuar con el chat

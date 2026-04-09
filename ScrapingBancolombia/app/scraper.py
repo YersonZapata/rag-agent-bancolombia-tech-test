@@ -120,6 +120,22 @@ async def descubrir_categorias_menu(page):
     logger.info(f"Navegando a {START_URL} para leer el menú...")
     await page.goto(START_URL, wait_until="domcontentloaded", timeout=30000)
     
+    # ==========================================
+    # Eliminar modales y popups del DOM
+    # ==========================================
+    try:
+        await page.evaluate("""
+            () => {
+                // Seleccionamos la clase problemática y otras comunes de popups
+                const popups = document.querySelectorAll('.ag-smoke-main, [class*="modal-promocion"]');
+                popups.forEach(p => p.remove());
+            }
+        """)
+        print("[*] Popups e interferencias eliminadas del DOM.")
+    except Exception as e:
+        print(f"[!] Aviso al intentar borrar popups: {e}")
+    # ==========================================
+
     categorias = set()
     try:
         menu_locator = page.locator('#menu-productos')
@@ -209,7 +225,24 @@ async def mapear_y_extraer_rama(page, rp, categoria_raiz, visitados_global, pagi
             # ==========================================
             # LIMPIEZA DE DOM MEJORADA EN EL NAVEGADOR
             # ==========================================
-            titulo = await page.title()
+            
+            try:
+                # Buscamos el primer <h1>. El timeout corto (ej. 3000ms) evita que 
+                elemento_h1 = page.locator('h1').first
+                titulo_bruto = await elemento_h1.inner_text(timeout=2000)
+                
+                # Limpiamos saltos de línea extraños o espacios sobrantes
+                titulo = " ".join(titulo_bruto.split())
+                
+                # Si el H1 está vacío por alguna razón, forzamos el fallback
+                if not titulo:
+                    raise ValueError("El H1 está vacío")
+                    
+            except Exception:
+                # FALLBACK: Si falla, no hay H1, o está vacío, usamos el meta title
+                titulo = await page.title()
+            #===============================================#titulo = await page.title()
+            
             html_sucio = await page.evaluate("""
                 () => {
                     const basura = [

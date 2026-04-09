@@ -5,9 +5,6 @@ services:
   chromadb-server:
     image: docker.io/chromadb/chroma:latest
     container_name: chromadb-server
-    volumes:
-      # Si la variable CHROMA_SOURCE existe, la usa. Si no, usa ./chroma_data
-      - ${CHROMA_SOURCE:-./chroma_data}:/chroma/chroma
     ports:
       - "8000:8000"
     networks:

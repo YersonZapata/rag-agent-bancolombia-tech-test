@@ -16,7 +16,7 @@ def get_chroma_client(path="./chroma_data"):
 def get_collection(client, collection_name="productos_bancolombia"):
     """Solo obtiene la colección (ideal para buscar)."""
     ef = embedding_functions.SentenceTransformerEmbeddingFunction(
-        model_name="BAAI/bge-m3"
+        model_name="intfloat/multilingual-e5-small"
     )
     return client.get_or_create_collection(
         name=collection_name,

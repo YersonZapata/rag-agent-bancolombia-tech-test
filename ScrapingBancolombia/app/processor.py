@@ -14,7 +14,11 @@ def procesar_y_guardar_productos(productos_extraidos, collection):
         logger.warning("No hay productos para procesar.")
         return
     
-    nombre_modelo_embeddings = "BAAI/bge-m3"
+    #BAAI/bge-m3
+    #multilingual-e5-small
+    #intfloat/multilingual-e5-base
+    #sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+    nombre_modelo_embeddings = "intfloat/multilingual-e5-small"
     
     logger.info("Cargando modelo de embeddings {nombre_modelo_embeddings}...")
     lc_embeddings = HuggingFaceEmbeddings(model_name=nombre_modelo_embeddings)
@@ -22,7 +26,8 @@ def procesar_y_guardar_productos(productos_extraidos, collection):
     logger.info("Configurando SemanticChunker...")
     semantic_splitter = SemanticChunker(
         lc_embeddings,
-        breakpoint_threshold_type="percentile" 
+        breakpoint_threshold_type="percentile",
+        breakpoint_threshold_amount=85.0
     )
     
     documents = []
@@ -36,14 +41,18 @@ def procesar_y_guardar_productos(productos_extraidos, collection):
     for prod in productos_extraidos:
         chunks = semantic_splitter.split_text(prod["contenido"])
         for i, chunk in enumerate(chunks):
-            documents.append(chunk)
+            #
+            chunk_optimizado = f"passage: {chunk}"
+            documents.append(chunk_optimizado)
+            #
+            #documents.append(chunk)
             metadatas.append({
                 "id_producto": prod["id"],
                 "producto": prod["producto"],     
                 "categoria": prod["categoria"],   
                 "url": prod["url"],
                 "chunk_index": i,
-                "fecha_ultima_actualizacion": fecha_actualizacion,  # <-- Nuevo campo
+                "fecha_ultima_actualizacion": fecha_actualizacion,
                 "modelo_embeddings": nombre_modelo_embeddings
             })
             ids.append(f"prod_{prod['id']}_chunk_{i}")
