@@ -18,7 +18,8 @@ def search_knowledge_base(
 ) -> str:
     """
     Ejecuta una búsqueda semántica en la base de conocimiento de Bancolombia.
-    ÚSALA SIEMPRE que el usuario pregunte por características, tasas, requisitos, seguros, créditos o cualquier información de productos del banco.
+    ÚSALA SIEMPRE que el usuario pregunte por características, tasas, requisitos, seguros, créditos o cualquier información de productos del banco. 
+    Si no tienes mas información obten el articulo completo con la url y verifica la información solicitada por el usuario.
     """
     
     

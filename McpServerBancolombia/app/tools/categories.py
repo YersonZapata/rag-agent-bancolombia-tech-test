@@ -3,7 +3,7 @@ from collections import defaultdict
 
 def list_categories() -> str:
     """
-    Retorna una lista estructurada con las categorías y los productos específicos disponibles para cada categoría en la base de conocimiento.
+    Retorna una lista estructurada con las categorías y los productos específicos disponibles para cada categoría disponible en Bancolombia.
     ÚSALA cuando el usuario haga preguntas exploratorias como '¿Qué tipo de productos ofrecen?', '¿Cuáles son las categorías?' o cuando necesites entender el portafolio de servicios del banco antes de hacer una búsqueda más profunda.
     """
     try:

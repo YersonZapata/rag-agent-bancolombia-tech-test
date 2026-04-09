@@ -1,7 +1,7 @@
 import sys
 import asyncio
 import logging
-import threading  # <-- LA LIBRERÍA SALVADORA
+import threading 
 from fastapi import FastAPI
 from pydantic import BaseModel
 
@@ -18,8 +18,8 @@ class SearchRequest(BaseModel):
 
 def tarea_aislada():
     """
-    Esta función se ejecutará en un hilo nativo de Windows,
-    totalmente invisible y desconectado del motor asíncrono de FastAPI.
+    Esta función se ejecutará en un hilo,
+    totalmente invisible y desconectado del motor asíncrono de FastAPI para poder realizar scraping en segundo plano.
     """
     try:
         logger.info("=== INICIANDO PIPELINE EN HILO AISLADO ===")
@@ -34,7 +34,7 @@ def tarea_aislada():
         
         # 3. Ejecutamos el scraping
         productos = loop.run_until_complete(ejecutar_scraping())
-        logger.info(f"✅ ¡Se encontraron y extrajeron {len(productos)} productos en total!")
+        logger.info(f"===== ¡Se encontraron y extrajeron {len(productos)} productos en total!")
         # 4. Cerramos el ciclo
         loop.close()
         

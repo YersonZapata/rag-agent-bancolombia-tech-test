@@ -266,7 +266,7 @@ async def mapear_y_extraer_rama(page, rp, categoria_raiz, visitados_global, pagi
 # ENDPOINT PRINCIPAL QUE CONECTA CON MAIN.PY
 # ==========================================
 async def ejecutar_scraping():
-    max_productos = int(os.getenv("MAX_PRODUCTOS_A_GUARDAR", "2"))
+    max_productos = int(os.getenv("MAX_PRODUCTOS_A_GUARDAR", "-1"))
     logger.info("Iniciando proceso de Scraping y Mapeo de Bancolombia...")
     
     rp = inicializar_robot_parser()
