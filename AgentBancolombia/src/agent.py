@@ -8,7 +8,7 @@ def get_query_rewriter():
     """
     Crea una cadena (chain) que reformula la pregunta del usuario basándose en el historial.
     """
-    llm_rewriter = ChatGoogleGenerativeAI(model="gemini-flash-latest", temperature=0)
+    llm_rewriter = ChatGoogleGenerativeAI(model="gemini-3.1-flash-lite-preview", temperature=0)
     
     system_prompt = """Dada la historia de la conversación y la nueva pregunta del usuario, 
     reformula la pregunta para que sea una consulta independiente (standalone query) que incluya 
@@ -34,11 +34,11 @@ def get_query_rewriter():
 
 def build_bancolombia_agent():
     """
-    Construye y retorna el agente de LangChain v1.x utilizando Gemini y LangGraph.
+    Construye y retorna el agente de LangChain v1.2.15 utilizando Gemini y LangGraph.
     """
     # 1. Definir el LLM 
     llm = ChatGoogleGenerativeAI(
-        model="gemini-flash-latest", 
+        model="gemini-3.1-flash-lite-preview", 
         temperature=0.2,
         max_retries=2 
     )
@@ -50,12 +50,13 @@ def build_bancolombia_agent():
     
     REGLAS ESTRICTAS:
     1. DEBES basar tus respuestas en la información obtenida a través de tus herramientas (base de conocimiento).
-    2. NUNCA inventes información, tasas, ni requisitos. Si la base de conocimiento no tiene la respuesta, indica cortésmente que no dispones de esa información en este momento.
-    3. CITACIÓN DE FUENTES: Al final de cada respuesta que use información de la base de conocimiento, DEBES incluir una sección llamada "Fuentes consultadas:" listando las URLs utilizadas.
-    4. FUERA DE ALCANCE: Si el usuario pregunta por temas no relacionados con Bancolombia, servicios financieros o soporte general, responde educadamente que tu alcance se limita a productos y servicios del Grupo Bancolombia y no puedes responder esa pregunta.
+    2. DEBES identificar el producto del que habla el usuario y solo usar la información que tenga que ver sobre el producto que pregunta el usuario.
+    3. NUNCA inventes información, tasas, ni requisitos. Si la base de conocimiento no tiene la respuesta, indica cortésmente que no dispones de esa información en este momento.
+    4. CITACIÓN DE FUENTES: Al final de cada respuesta que use información de la base de conocimiento, DEBES incluir una sección llamada "Fuentes consultadas:" listando las URLs utilizadas.
+    5. FUERA DE ALCANCE: Si el usuario pregunta por temas no relacionados con Bancolombia, servicios financieros o soporte general, responde educadamente que tu alcance se limita a productos y servicios del Grupo Bancolombia y no puedes responder esa pregunta.
     """
     
-    # 3. Crear el Agente (Nuevo estándar)
+    # 3. Crear el Agente
     # create_agent por defecto maneja el ciclo de pensamiento (ReAct) y la invocación de herramientas
     agent = create_agent(
         model=llm,

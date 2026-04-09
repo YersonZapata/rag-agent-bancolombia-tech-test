@@ -14,7 +14,7 @@ def get_chroma_client(path="./chroma_data"):
     return chromadb.HttpClient(host=chroma_host, port=chroma_port)
 
 def get_collection(client, collection_name="productos_bancolombia"):
-    """Solo obtiene la colección (ideal para buscar). No borra nada."""
+    """Solo obtiene la colección (ideal para buscar)."""
     ef = embedding_functions.SentenceTransformerEmbeddingFunction(
         model_name="BAAI/bge-m3"
     )
@@ -24,7 +24,7 @@ def get_collection(client, collection_name="productos_bancolombia"):
     )
 
 def reset_collection(client, collection_name="productos_bancolombia"):
-    """Borra la colección y la recrea limpia (ideal para cuando hacemos scraping)."""
+    """Borra la colección y la recrea limpia"""
     try:
         client.delete_collection(name=collection_name)
     except Exception:

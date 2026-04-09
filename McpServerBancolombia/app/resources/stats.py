@@ -1,11 +1,12 @@
 from app.chroma_client import get_chroma_collection
 
-collection = get_chroma_collection()
 
 def get_stats_data() -> str:
     """
     Obtiene las estadísticas de la base de conocimiento.
     """
+    collection = get_chroma_collection()
+    
     if collection is None:
         return "Error: La base de datos vectorial no está disponible."
     try:
