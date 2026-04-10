@@ -69,7 +69,7 @@ Para que el sistema funcione, es necesario exportar la clave de la API de Google
 * `CHROMA_HOST`: Nombre del contenedor o IP de ChromaDB (Default: `chromadb-server`).
 * `CHROMA_PORT`: Puerto de conexión a ChromaDB (Default: `8000`).
 * `MAX_PRODUCTOS_A_GUARDAR`: Límite de productos a extraer durante el scraping. Se usa para pruebas rápidas. (Default: `-1` para extraer todo).
-* `CHROMA_SOURCE`: Define la ruta del volumen a montar para ChromaDB (Default: `./chroma_data`), se puede setear `./chroma_backup` para no tener que ejecutar el scraping y probar directamente el desarrollo.
+
 ---
 
 ## 🚀 Despliegue y Ejecución
@@ -103,3 +103,5 @@ docker compose up -d --build
 o
 podman compose up -d --build
 ```
+
+Para interactuar con el chat, entrar a http://localhost:8501/

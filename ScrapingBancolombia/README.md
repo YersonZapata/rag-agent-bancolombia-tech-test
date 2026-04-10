@@ -69,3 +69,34 @@ Permite realizar consultas semánticas directas sobre **ChromaDB** para validar 
   "query": "cuales son las caracteristicas del seguro de vida mas",
   "limit": 3
 }
+
+para navegar dentro de los datos de la chromadb en local usar 
+
+```bash
+chroma browse productos_bancolombia --local
+```
+
+## 💾 Precarga de Datos (Backup de Embeddings)
+
+Dado que el proceso de scraping y embedding puede ser lento o fallar por cambios estructurales en la web de Bancolombia, se ha incluido una copia de seguridad de los datos procesados que puede cargarse directamente en ChromaDB.
+
+Sigue estos pasos para restaurar el backup:
+
+**1. Copiar el contenido del backup al contenedor:**
+```bash
+podman cp "tu_ruta_local\chroma_backup\data\." chromadb-server:/data
+```
+**2. Asignar permisos sobre la ruta:**
+```bash
+podman exec -it chromadb-server chmod -R 777 /data
+```
+**3. Reiniciar el contenedor:**
+```bash
+podman restart chromadb-server
+```
+
+Si tienes instalado Chroma en tu sistema, puedes verificar los datos cargados ejecutando:
+
+```bash
+chroma browse productos_bancolombia --local
+```

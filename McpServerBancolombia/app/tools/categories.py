@@ -4,7 +4,12 @@ from collections import defaultdict
 def list_categories() -> str:
     """
     Retorna una lista estructurada con las categorías y los productos específicos disponibles para cada categoría disponible en Bancolombia.
-    ÚSALA cuando el usuario haga preguntas exploratorias como '¿Qué tipo de productos ofrecen?', '¿Cuáles son las categorías?' o cuando necesites entender el portafolio de servicios del banco antes de hacer una búsqueda más profunda.
+    ÚSALA OBLIGATORIAMENTE para preguntas exploratorias, de descubrimiento o de listas, tales como:
+    - "¿Qué tipos/clases/categorias de [tarjetas/créditos/seguros] tienen?"
+    - "¿Cuáles son las opciones de [producto]?"
+    - "¿Qué me ofrecen en [categoría]?"
+    
+    Esta herramienta te dará el panorama completo para que luego puedas guiar al usuario a un producto específico.
     """
     try:
         collection = get_chroma_collection()

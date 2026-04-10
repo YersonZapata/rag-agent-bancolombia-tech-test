@@ -11,7 +11,7 @@ def get_article_by_url(
     )]
 ) -> str:
     """
-    Recupera el texto completo de un artículo específico usando su URL exacta.
+    Recupera el texto completo de un producto/categoria específico usando su URL exacta.
     ÚSALA SOLO cuando el usuario te pida más detalles sobre un producto específico cuya URL ya conoces (por ejemplo, tras usar search_knowledge_base) y necesites leer todo su contenido, o cuando el usuario te entregue la url.
     """
 

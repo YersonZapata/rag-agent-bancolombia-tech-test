@@ -28,7 +28,7 @@ def get_chroma_collection():
         
         # 2. Obtenemos la colección real
         ef = embedding_functions.SentenceTransformerEmbeddingFunction(
-            model_name="BAAI/bge-m3"
+            model_name="intfloat/multilingual-e5-small"
         )
         collection_name = os.getenv("CHROMA_COLLECTION", "productos_bancolombia")
         _collection = _client.get_collection(name=collection_name,embedding_function=ef)
