@@ -18,7 +18,7 @@ Para este proyecto, se implementó el **transporte `stdio` (Standard I/O)**. Est
 El código está estructurado siguiendo el principio de Responsabilidad Única (SRP):
 
 * **`main.py`**: Es el orquestador y punto de entrada. Utiliza el framework `FastMCP` para registrar las herramientas (Tools) y los recursos (Resources) y levantar el servidor.
-* **`chroma_client.py`**: Administra la conexión de bajo nivel con la base de datos vectorial ChromaDB y carga el modelo de embeddings (`BAAI/bge-m3`).
+* **`chroma_client.py`**: Administra la conexión de bajo nivel con la base de datos vectorial ChromaDB y carga el modelo de embeddings (`intfloat/multilingual-e5-small`).
 * **`/tools/`**: Directorio que agrupa las capacidades transaccionales del servidor:
     * `search.py`: Motor de búsqueda semántica.
     * `article.py`: Extractor de documentos exactos por URL.
@@ -36,6 +36,8 @@ Las siguientes herramientas son expuestas automáticamente al LLM, incluyendo su
 * **Propósito:** Realiza búsquedas semánticas (Vector Search) para encontrar los fragmentos de texto más relevantes a la pregunta del usuario.
 * **Parámetros:** * `query` (str): La pregunta en lenguaje natural.
     * `n_results` (int, 1-5): Número de resultados a retornar (Default: 3).
+    * `categoria` (str): Para mayor presición el modelo puede hacer filtro por categoría y encontrar los chunks referentes a esa categoría
+    * `producto` (str): Para mayor presición el modelo puede hacer filtro por producto y encontrar los chunks referentes a esa 
 * **Retorno:** JSON con producto, categoría, URL, nivel de relevancia (distancia) y el fragmento del documento.
 
 ### 2. `get_article_by_url`

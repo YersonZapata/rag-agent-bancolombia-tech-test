@@ -8,7 +8,7 @@ Actúa como el cerebro del sistema, interactuando con el usuario final a través
 
 ## ⚙️ Arquitectura del Sistema
 
-El Agente está diseñado bajo el patrón **ReAct (Reason + Act)** y utiliza una arquitectura orientada a grafos (LangGraph) para el manejo del estado conversacional. Está estrictamente desacoplado de la base de datos vectorial; su única forma de acceder a los datos de los productos bancarios es a través de un puente MCP.
+El Agente está diseñado bajo el patrón **ReAct (Reason + Act)** y utiliza **LangChain** para la orquestación y el manejo del estado conversacional. Está estrictamente desacoplado de la base de datos vectorial; su única forma de acceder a los datos de los productos bancarios es a través de un puente MCP.
 
 ### Componentes Principales:
 1. **Frontend (UI):** Interfaz construida en Streamlit que maneja la memoria a corto plazo (Session State) y renderiza la conversación.
@@ -20,11 +20,11 @@ El Agente está diseñado bajo el patrón **ReAct (Reason + Act)** y utiliza una
 
 ## 🛠️ Tecnologías Utilizadas
 
-* **Orquestación IA:** LangChain / LangGraph
+* **Orquestación IA:** LangChain
 * **LLM Core:** Google Gemini (`gemini-3.1-flash-lite-preview`) vía `langchain-google-genai`
 * **Protocolo de Integración:** Model Context Protocol (MCP SDK oficial de Anthropic)
 * **Frontend:** Streamlit
-* **Gestión de Entorno:** Python 3.11, dependencias asíncronas (`asyncio`)
+* **Gestión de Entorno:** Python 3.10, dependencias asíncronas (`asyncio`)
 
 ---
 
