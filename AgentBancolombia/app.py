@@ -38,7 +38,7 @@ if user_input:
                     "chat_history": st.session_state.chat_history,
                     "question": user_input
                 })
-                # Opcional: Mostrarle al evaluador que el sistema es inteligente
+                # Opcional: Mostrar que el sistema es inteligente
                 st.caption(f"*(Búsqueda contextualizada: {standalone_query})*")
             else:
                 standalone_query = user_input
@@ -53,7 +53,7 @@ if user_input:
             try:
                 response = agent_app.invoke({"messages": messages_for_agent})
                 
-                # Extraemos y limpiamos el texto de Gemini (como lo arreglamos antes)
+                # Extraemos y limpiamos el texto de Gemini
                 raw_content = response["messages"][-1].content
                 if isinstance(raw_content, list):
                     output_text = "".join(

@@ -34,7 +34,7 @@ def get_query_rewriter():
 
 def build_bancolombia_agent():
     """
-    Construye y retorna el agente de LangChain v1.2.15 utilizando Gemini y LangGraph.
+    Construye y retorna el agente de LangChain v1.2.15 utilizando Gemini
     """
     # 1. Definir el LLM 
     llm = ChatGoogleGenerativeAI(
