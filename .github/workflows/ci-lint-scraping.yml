@@ -1,0 +1,30 @@
+name: Lint Scraping Engine
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "main" ]
+    paths:
+      - 'ScrapingBancolombia/**'
+  pull_request:
+    branches: [ "main" ]
+    paths:
+      - 'ScrapingBancolombia/**'
+
+jobs:
+  lint-python:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v4
+
+      - name: Configurar Python 3.10
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Validación de sintaxis y Linter básico
+        run: |
+          pip install flake8
+          # Falla si hay errores críticos de sintaxis en el Scraper
+          flake8 ScrapingBancolombia/ --count --select=E9,F63,F7,F82 --show-source --statistics

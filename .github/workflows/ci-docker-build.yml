@@ -1,0 +1,31 @@
+name: Verificación de Build Docker
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "main" ]
+    paths:
+      - 'AgentBancolombia/**'
+      - 'McpServerBancolombia/**'
+      - 'ScrapingBancolombia/**'
+      - 'Dockerfile'
+      - 'docker-compose.yml'
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-images:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v4
+
+      - name: Construir Imagen Unificada (Agente + Servidor MCP)
+        # Apunta al Dockerfile en la raíz del proyecto
+        run: |
+          docker build -t bancolombia-rag-unified:test -f Dockerfile .
+
+      - name: Construir Imagen del Scraper
+        # Apunta al Dockerfile dentro de la carpeta del scraper y usa esa carpeta como contexto
+        run: |
+          docker build -t bancolombia-scraper:test -f ScrapingBancolombia/Dockerfile ./ScrapingBancolombia
