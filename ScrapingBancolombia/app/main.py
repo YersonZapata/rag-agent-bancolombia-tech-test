@@ -49,7 +49,7 @@ def tarea_aislada():
 
 @app.post("/api/v1/trigger-pipeline")
 async def trigger_pipeline():
-    # En vez de BackgroundTasks, disparamos un Hilo Nativo
+    # Disparamos un Hilo Nativo
     hilo = threading.Thread(target=tarea_aislada)
     hilo.start()
     

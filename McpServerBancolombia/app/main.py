@@ -12,7 +12,7 @@ os.environ["TOKENIZERS_PARALLELISM"] = "false"
 logging.basicConfig(
     level=logging.INFO, 
     format='%(asctime)s - %(levelname)s - %(message)s',
-    stream=sys.stderr  # <- ESTO ES VITAL
+    stream=sys.stderr  # <- forzamiento a STDERR para no saturar el pipeline
 )
 
 # Importar las tools separadas
@@ -56,6 +56,6 @@ if __name__ == "__main__":
     logging.info("Pre-calentando cliente de ChromaDB y modelo de embeddings...")
     get_chroma_collection()
     logging.info("Servidor MCP listo. Iniciando transporte stdio...")
-    # Inicia el servidor usando stdio, tal como lo exige el requerimiento de transporte
+    # Inicia el servidor usando stdio
     mcp.run()
     #mcp.run(transport="http", host="0.0.0.0", port=8005)

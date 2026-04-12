@@ -24,7 +24,7 @@ def search_knowledge_base(
 ) -> str:
     """
     Ejecuta una búsqueda semántica en la base de conocimiento de Bancolombia.
-    ÚSALA SIEMPRE que necesites detalles profundos sobre un producto ESPECÍFICO (características, tasas, requisitos, beneficios).
+    ÚSALA SIEMPRE que necesites detalles profundos sobre un producto ESPECÍFICO (características, tasas, requisitos, beneficios), diferencia bien entre débito y crédito.
     REGLA DE EXCLUSIÓN: NO uses esta herramienta si el usuario hace una pregunta general como "¿Qué tipos de tarjetas tienen?" o "¿Cuáles son sus créditos?". Para esos casos de exploración, usa SIEMPRE la herramienta 'list_categories' primero.
     """
     

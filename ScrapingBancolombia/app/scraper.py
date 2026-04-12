@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 BASE_URL = "https://www.bancolombia.com"
 START_URL = f"{BASE_URL}/personas"
 DOMAIN = "www.bancolombia.com"
-USER_AGENT = "CrawlerHibrido/1.0"
+USER_AGENT = "CrawlerHibrido/1.5"
 RATE_LIMIT_SEGUNDOS = 0.5
 PALABRAS_IGNORADAS = ["simulador", "simular"]
 
@@ -114,7 +114,7 @@ async def simular_scroll_humano(page):
     await asyncio.sleep(1)
 
 # ==========================================
-# LÓGICA DE DESCUBRIMIENTO ORIGINAL
+# LÓGICA DE DESCUBRIMIENTO de categorias
 # ==========================================
 async def descubrir_categorias_menu(page):
     logger.info(f"Navegando a {START_URL} para leer el menú...")
@@ -223,11 +223,11 @@ async def mapear_y_extraer_rama(page, rp, categoria_raiz, visitados_global, pagi
             visitados_global.add(url_final_servidor)
 
             # ==========================================
-            # LIMPIEZA DE DOM MEJORADA EN EL NAVEGADOR
+            # LIMPIEZA DE DOM EN EL NAVEGADOR
             # ==========================================
             
             try:
-                # Buscamos el primer <h1>. El timeout corto (ej. 3000ms) evita que 
+                # Buscamos el primer <h1>. El timeout corto (ej. 3000ms) evita que al no encontrar información reviente.
                 elemento_h1 = page.locator('h1').first
                 titulo_bruto = await elemento_h1.inner_text(timeout=2000)
                 
@@ -320,7 +320,7 @@ async def ejecutar_scraping():
             await browser.close()
             return paginas_guardadas
 
-        # 2. Iteramos por cada rama igual que el original
+        # 2. Iteramos por cada rama 
         for categoria in categorias_raiz:
             if limite_alcanzado:
                 break
