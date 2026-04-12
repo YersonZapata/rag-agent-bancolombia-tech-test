@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout del código
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Configurar Python 3.10
         uses: actions/setup-python@v5
@@ -29,4 +29,4 @@ jobs:
         run: |
           pip install flake8
           # Falla si hay errores críticos de sintaxis en el Agente o el Servidor MCP
-          flake8 AgentBancolombia/ McpServerBancolombia/ --count --select=E9,F63,F7,F82 --show-source --statistics
+          flake8 AgentBancolombia/ McpServerBancolombia/ -v --count --select=E9,F63,F7,F82 --show-source --statistics
