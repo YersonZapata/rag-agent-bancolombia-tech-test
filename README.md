@@ -55,11 +55,6 @@ Para cumplir con el estándar MCP de forma segura, el **Agente** y el **Servidor
 
 ---
 
-¡Entendido! Es una excelente corrección. Evitar el archivo .env y exigir que la variable se exporte directamente en la sesión de la terminal es una práctica de seguridad muy estricta (y muy bien vista) que evita comprometer credenciales por accidente en el control de versiones.
-
-Aquí tienes las secciones de Variables de Entorno y Despliegue y Ejecución corregidas para reflejar este cambio. Puedes reemplazar estas partes en tu README.md:
-
-Markdown
 ## ⚙️ Variables de Entorno
 
 Para que el sistema funcione, es necesario exportar la clave de la API de Google Gemini directamente en tu sesión de terminal antes de levantar los contenedores. Por motivos de seguridad y mejores prácticas, este proyecto no utiliza un archivo `.env` físico para la inyección de credenciales.
@@ -86,7 +81,8 @@ Con el objetivo de seguir escalando y optimizando el proyecto, se proponen las s
 * **Eficiencia de Tokens:** Implementar técnicas de Caveman Prompting para reducir el consumo de tokens y, en consecuencia, optimizar los costos.
 * **Gestión Segura de Secretos:** Integrar un sistema de gestión de secretos (como AWS Secrets Manager, GitHub Secrets, etc.) para inyectar credenciales y llaves de acceso de forma segura en entornos productivos, evitando el paso de las mismas por medios no seguros como correos electrónicos.
 * **Evolución a LangGraph:** Migrar la orquestación del flujo conversacional de LangChain a LangGraph. Esto permitirá construir un sistema mucho más robusto, manejando ciclos complejos y teniendo un control semántico mucho más fino y determinista sobre cuándo y cómo el agente decide utilizar cada herramienta disponible.
-* **Evolución a LangGraph:** Actualmente, la consulta de categorías y recursos se realiza mediante un escaneo total de la base de datos y eliminación de duplicados. Dado el volumen actual de productos, esta solución es funcional; sin embargo, representa una oportunidad de mejora técnica para optimizar el rendimiento a medida que la base de datos crezca.
+* **Optimización en consulta a la db:** Actualmente, la consulta de categorías y recursos se realiza mediante un escaneo total de la base de datos y eliminación de duplicados. Dado el volumen actual de productos, esta solución es funcional; sin embargo, representa una oportunidad de mejora técnica para optimizar el rendimiento a medida que la base de datos crezca.
+* **Scraper:** Actualmente, el scraper almacena los datos en memoria antes de generar los embeddings, lo cual compromete la escalabilidad al procesar volúmenes masivos de páginas. Como mejora, se propone una arquitectura de procesamiento directo hacia la base de datos o el uso de un almacenamiento intermedio en Amazon S3 para desacoplar la extracción de la transformación.
 
 ## 🚀 Despliegue y Ejecución
 
